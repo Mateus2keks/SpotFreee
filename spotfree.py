@@ -4,22 +4,19 @@ import time
 import pygame
 
 os.system("clear")
-
 pygame.mixer.init()
 pygame.init()
-
 # -Busca a pasta com as musicas - o arquivo tem que estar no mesmo arquivo que que a pasta com as musicas !!
 pasta_atual = os.path.dirname(os.path.abspath(__file__)) + "/musica"
 os.makedirs(pasta_atual,exist_ok=True)
 
 quantidade = os.listdir(pasta_atual)
-
 musica_pausada = False
 m = 0
-pular = False
-# - Pega as musicas da pasta e guarda em uma lista-
+volume = 0.0
 n = -1
 lista_musicas = []
+# - Pega as musicas da pasta e guarda em uma lista-
 for num in quantidade:
     n += 1
     lista_musicas.append(num)
@@ -41,6 +38,7 @@ pygame.mixer.music.set_endevent(FIM_DA_MUSICA)
 # -Botao de play da musica-
 def play():
     global musica_atual
+    pygame.mixer.music.set_volume(volume)
     print(musica_atual)
     caminho_da_musica =  pasta_atual + f"/{musica_atual}" 
 
@@ -58,8 +56,11 @@ def play():
 def verificar_eventos():
     global m
     global musica_atual
+    global volume
+    # -Volume-
+    volume = volu.get() / 100
+    pygame.mixer.music.set_volume(volume)
     esta_tocando = pygame.mixer.music.get_busy()
-
     for evento in pygame.event.get(): 
         if not esta_tocando and not musica_pausada:
             pygame.mixer.music.stop()
@@ -98,6 +99,17 @@ def pular_frente():
     pygame.mixer_music.unpause()
     play()
 
+# -Notao para pular para a atras a musica !-
+def pular_atras():
+    global musica_atual
+    global m
+    m -= 1
+    pygame.mixer_music.pause
+    musica_atual = lista_musicas[m]
+    pygame.mixer_music.unpause()
+    play()
+
+
 # -Definiçoes e suas posiçoes-
 frame_lista = tk.Frame(janela)
 frame_lista.grid(row=1, column=0, columnspan=1, padx=10, pady=10, sticky="nsew")
@@ -115,6 +127,15 @@ caixa_lista.config(yscrollcommand=barra_rolagem.set)
 for num in lista_musicas:
     caixa_lista.insert("end", num)
 
+# -Barra de volume-
+volu = tk.Scale(
+    orient="vertical",
+    from_=0,
+    to=100
+)
+volu.grid(column=1,row=1)
+
+
 # -Botoes !-
 # -Play-
 botao_play = tk.Button(
@@ -125,7 +146,7 @@ botao_play = tk.Button(
     fg="White",
     font=("Arial",13)
 )
-botao_play.grid(column=0,row=3)
+botao_play.grid(column=1,row=4)
 
 # -Pular para frente-
 botao_frente = tk.Button(
@@ -136,7 +157,18 @@ botao_frente = tk.Button(
     fg="White",
     font=("Arial",13)
 )
-botao_frente.grid(column=1,row=2)
+botao_frente.grid(column=1,row=3)
+
+# -Pular para atras-
+botao_atras = tk.Button(
+    janela,
+    text="Anterior",
+    command=lambda: pular_atras(),
+    bg="black",
+    fg="White",
+    font=("Arial",13)
+)
+botao_atras.grid(column=0,row=3)
 
 # -Pause-
 botao_pause = tk.Button(
@@ -147,7 +179,7 @@ botao_pause = tk.Button(
     fg="White",
     font=("Arial",13)
 )
-botao_pause.grid(column=1,row=3)
+botao_pause.grid(column=0,row=4)
 
 janela.after(100,lambda: verificar_eventos())
 janela.mainloop()
