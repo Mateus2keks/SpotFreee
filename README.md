@@ -1,9 +1,24 @@
-# Este um Spotfy Versao Mateus
+# Este um Spotfy Versao do Munhoz
 
-## instale as dependencias necessarias usando <br >"pip install -r requiments.txt --no-deps"
+instale as dependencias necessarias usando: <br>
 
-Ele vai ler as musicas da pasta "Musicas", colocar elas em uma lista e tocar cada uma por nome
+```bash
+pip install -r requiments.txt --no-deps
+```
 
-Futuramente ela vai ter atualiçoes sobre Algumas funçoes, e uma opçao para baixar musicas e salvar !!
+E depois rodar o arquivo usando o terminal ou algum editor usando:
+<br>
+```
+python3 spotfree.py ou python spotfree.py
+```
 
-Foi criado so para quem nao quer entrar na internet
+<p>
+Ele vai ler as musicas que estao na pasta "Musicas" <br>
+colocar elas em uma lista e tocar cada uma por nome <br>
+a lista que aparecer na janela tera a ordem que sera tocada ! 
+Se quiseres adicionar mais musicas, so colocar elas na pasta !
+</p>
+
+
+
+Foi criado so para quem nao quer entrar na internet e para por em pratica meus conhecimentos
